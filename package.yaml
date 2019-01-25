@@ -1,0 +1,77 @@
+name: diceware
+version: '1.0'
+# synopsis:
+# description:
+license: ISC
+author: Dino Morelli
+maintainer: dino@ui3.info
+copyright: 2019 Dino Morelli
+category: Unclassified
+extra-source-files:
+- changelog.md
+- .gitignore
+- package.yaml
+- README.md
+- stack.yaml
+
+github: dino-/diceware
+
+ghc-options:
+- -fwarn-tabs
+- -Wall
+- -Wcompat
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
+
+# default-extensions:
+# - BangPatterns
+# - DeriveFoldable
+# - DeriveFunctor
+# - DeriveGeneric
+# - DeriveLift
+# - DeriveTraversable
+# - EmptyCase
+# - FlexibleContexts
+# - FlexibleInstances
+# - GeneralizedNewtypeDeriving
+# - InstanceSigs
+# - KindSignatures
+# - LambdaCase
+# - MultiParamTypeClasses
+# - MultiWayIf
+# - NamedFieldPuns
+# - OverloadedStrings
+# - ScopedTypeVariables
+# - StandaloneDeriving
+# - TupleSections
+
+dependencies:
+- base >=3 && <5
+
+# library:
+#   source-dirs: src/lib
+#   dependencies: []
+
+executables:
+  diceware:
+    source-dirs: src/diceware
+    main: Main.hs
+    dependencies:
+    - containers
+    # - diceware
+    - filepath
+    - random
+
+# tests:
+#   diceware-test-suite:
+#     source-dirs: src/test
+#     main: Main.hs
+#     dependencies:
+#     - diceware
+#     - tasty
+#     - tasty-hspec
+#     ghc-options:
+#     - -rtsopts
+#     - -threaded
+#     - -with-rtsopts=-N

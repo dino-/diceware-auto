@@ -3,20 +3,14 @@
   http://world.std.com/~reinhold/diceware.html
 -}
 
-import Control.Arrow ( (&&&) )
 import Control.Monad (replicateM, replicateM_)
-import Data.Char ( isDigit )
 import Data.List (intercalate)
-import qualified Data.Map as M
-import Data.Maybe ( fromJust )
-import Prelude hiding ( lookup )
 import System.Environment ( getArgs )
 import System.FilePath ( (</>), (<.>), FilePath )
 import System.Random ( newStdGen, randomRs )
 import Text.Printf ( printf )
 
-
-type Dicemap = M.Map String String
+import Diceware.Words
 
 
 dicewareWordlistPath :: FilePath
@@ -30,29 +24,23 @@ defaultNumWords = "6"
 defaultNumLines = "20"
 
 
-{- Load the diceware word list file into a Map
--}
-loadWordlist :: IO Dicemap
-loadWordlist = do
-  wordlistLines <- lines <$> readFile dicewareWordlistPath
-  let parsed = map (takeWhile isDigit &&& tail . dropWhile isDigit) wordlistLines
-  return $ M.fromList parsed
-
-
 {-
   Randomly generate dice rolls and return the corresponding diceware
   word
 -}
 getWord :: Dicemap -> IO String
-getWord dm = do
+getWord dicemap = do
   g <- newStdGen
   let rNums = take 5 $ randomRs (1, 6 :: Int) g
   let key = concat $ map show rNums
-  return $ fromJust $ M.lookup key dm
+  maybe
+    (error $ "Unable to proceed becuase this doesn't map to any word: " ++ key)
+    return $ lookupWord key dicemap
 
 
-{- Pick lists of lists of diceware words given a number of words per line
-   and a number of lines
+{-
+  Pick lists of lists of diceware words given a number of words per line
+  and a number of lines
 -}
 pickWords :: [String] -> IO ()
 
@@ -60,7 +48,7 @@ pickWords (numWords : [])            =
   pickWords [numWords, defaultNumLines]
 
 pickWords (numWords : numLines : []) = do
-  mapWordlist <- loadWordlist
+  mapWordlist <- loadWordlist dicewareWordlistPath
 
   replicateM_ (read numLines) $ do
     -- Generate the words

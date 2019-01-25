@@ -49,9 +49,11 @@ ghc-options:
 dependencies:
 - base >=3 && <5
 
-# library:
-#   source-dirs: src/lib
-#   dependencies: []
+library:
+  source-dirs: src/lib
+  dependencies:
+  - containers
+  - filepath
 
 executables:
   diceware:
@@ -59,7 +61,7 @@ executables:
     main: Main.hs
     dependencies:
     - containers
-    # - diceware
+    - diceware
     - filepath
     - random
 

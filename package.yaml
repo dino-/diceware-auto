@@ -54,6 +54,7 @@ library:
   dependencies:
   - containers
   - filepath
+  - safe
 
 executables:
   diceware:

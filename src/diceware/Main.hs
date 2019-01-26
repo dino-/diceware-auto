@@ -32,9 +32,9 @@ getWord :: Dicemap -> IO String
 getWord dicemap = do
   g <- newStdGen
   let rNums = take 5 $ randomRs (1, 6 :: Int) g
-  let key = concat $ map show rNums
+  let key = listToKeyInt rNums
   maybe
-    (error $ "Unable to proceed becuase this doesn't map to any word: " ++ key)
+    (error $ "Unable to proceed because this doesn't map to any word: " ++ (show key))
     return $ lookupWord key dicemap
 
 

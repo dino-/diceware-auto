@@ -1,4 +1,4 @@
-name: diceware
+name: diceware-auto
 version: '1.0'
 # synopsis:
 # description:
@@ -14,7 +14,7 @@ extra-source-files:
 - README.md
 - stack.yaml
 
-github: dino-/diceware
+github: dino-/diceware-auto
 
 ghc-options:
 - -fwarn-tabs
@@ -57,12 +57,12 @@ library:
   - safe
 
 executables:
-  diceware:
-    source-dirs: src/diceware
+  diceware-auto:
+    source-dirs: src/diceware-auto
     main: Main.hs
     dependencies:
     - containers
-    - diceware
+    - diceware-auto
     - filepath
     - random
 
@@ -71,7 +71,7 @@ executables:
 #     source-dirs: src/test
 #     main: Main.hs
 #     dependencies:
-#     - diceware
+#     - diceware-auto
 #     - tasty
 #     - tasty-hspec
 #     ghc-options:

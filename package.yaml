@@ -63,7 +63,6 @@ executables:
     source-dirs: src/diceware-auto
     main: Main.hs
     dependencies:
-    - containers
     - diceware-auto
     - filepath
 

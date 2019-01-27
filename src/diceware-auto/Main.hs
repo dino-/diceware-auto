@@ -4,7 +4,6 @@
 -}
 
 import Control.Monad (replicateM, replicateM_)
-import Data.IntMap ( size )
 import Data.List (intercalate)
 import System.Environment ( getArgs )
 import System.FilePath ( (</>), (<.>), FilePath )
@@ -12,7 +11,7 @@ import Text.Printf ( printf )
 
 import Diceware.Math ( calculateEntropy )
 import Diceware.Random ( generateRandomDieRoll )
-import Diceware.Words ( Dicemap, listToKeyInt, loadWordlist, lookupWord )
+import Diceware.Words ( Dicemap, size, listToKeyInt, loadWordlist, lookupWord )
 
 
 dicewareWordlistPath :: FilePath

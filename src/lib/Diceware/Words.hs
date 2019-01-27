@@ -5,12 +5,15 @@ module Diceware.Words
   , listToKeyInt
   , loadWordlist
   , lookupWord
+
+  -- Re-exported
+  , size
   )
   where
 
 import Control.Arrow ( (&&&), first )
 import Data.Char ( isDigit )
-import Data.IntMap.Lazy ( IntMap )
+import Data.IntMap.Lazy ( IntMap, size )
 import qualified Data.IntMap.Lazy as IntMap
 import Data.Maybe ( fromJust, isJust )
 import Data.Text ( Text )

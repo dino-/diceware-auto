@@ -22,8 +22,8 @@ dicewareWordlistPath = "util" </> "resources" </> "diceware" <.> "wordlist" <.> 
 
 
 defaultNumWords, defaultNumLines :: String
-defaultNumWords = "6"
-defaultNumLines = "20"
+defaultNumWords = "8"
+defaultNumLines = "30"
 
 
 {-

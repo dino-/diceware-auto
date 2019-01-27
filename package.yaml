@@ -24,28 +24,6 @@ ghc-options:
 - -Wincomplete-uni-patterns
 - -Wredundant-constraints
 
-# default-extensions:
-# - BangPatterns
-# - DeriveFoldable
-# - DeriveFunctor
-# - DeriveGeneric
-# - DeriveLift
-# - DeriveTraversable
-# - EmptyCase
-# - FlexibleContexts
-# - FlexibleInstances
-# - GeneralizedNewtypeDeriving
-# - InstanceSigs
-# - KindSignatures
-# - LambdaCase
-# - MultiParamTypeClasses
-# - MultiWayIf
-# - NamedFieldPuns
-# - OverloadedStrings
-# - ScopedTypeVariables
-# - StandaloneDeriving
-# - TupleSections
-
 dependencies:
 - base >=3 && <5
 

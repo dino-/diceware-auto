@@ -52,7 +52,9 @@ dependencies:
 library:
   source-dirs: src/lib
   dependencies:
+  - bytestring
   - containers
+  - cryptonite
   - filepath
   - text
 
@@ -64,7 +66,6 @@ executables:
     - containers
     - diceware-auto
     - filepath
-    - random
 
 # tests:
 #   diceware-test-suite:

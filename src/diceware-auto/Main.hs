@@ -8,10 +8,10 @@ import Data.IntMap ( size )
 import Data.List (intercalate)
 import System.Environment ( getArgs )
 import System.FilePath ( (</>), (<.>), FilePath )
-import System.Random ( newStdGen, randomRs )
 import Text.Printf ( printf )
 
 import Diceware.Math ( calculateEntropy )
+import Diceware.Random ( generateRandomDieRoll )
 import Diceware.Words ( Dicemap, listToKeyInt, loadWordlist, lookupWord )
 
 
@@ -32,8 +32,7 @@ defaultNumLines = "30"
 -}
 getWord :: Dicemap -> IO String
 getWord dicemap = do
-  g <- newStdGen
-  let rNums = take 5 $ randomRs (1, 6 :: Int) g
+  rNums <- replicateM 5 generateRandomDieRoll
   let key = listToKeyInt rNums
   maybe
     (error $ "Unable to proceed because this doesn't map to any word: " ++ (show key))

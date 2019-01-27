@@ -54,7 +54,7 @@ library:
   dependencies:
   - containers
   - filepath
-  - safe
+  - text
 
 executables:
   diceware-auto:

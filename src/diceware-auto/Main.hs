@@ -4,13 +4,15 @@
 -}
 
 import Control.Monad (replicateM, replicateM_)
+import Data.IntMap ( size )
 import Data.List (intercalate)
 import System.Environment ( getArgs )
 import System.FilePath ( (</>), (<.>), FilePath )
 import System.Random ( newStdGen, randomRs )
 import Text.Printf ( printf )
 
-import Diceware.Words
+import Diceware.Math ( calculateEntropy )
+import Diceware.Words ( Dicemap, listToKeyInt, loadWordlist, lookupWord )
 
 
 dicewareWordlistPath :: FilePath
@@ -47,19 +49,22 @@ pickWords :: [String] -> IO ()
 pickWords (numWords : [])            =
   pickWords [numWords, defaultNumLines]
 
-pickWords (numWords : numLines : []) = do
+pickWords (numWordsS : numLinesS : []) = do
   mapWordlist <- loadWordlist dicewareWordlistPath
 
-  replicateM_ (read numLines) $ do
-    -- Generate the words
-    wordsLine <- replicateM (read numWords) $ getWord mapWordlist
-    -- Calculate the length of the words only
-    let nospaceLength = sum $ map length wordsLine
-    -- Format a display string with interspersed spaces
-    let displayString = intercalate " " wordsLine
+  let wordListSize = size mapWordlist
+  printf "Number of elements (words) in word list: %d\n" wordListSize
+  let numWords = read numWordsS
+  printf "Number of words per passphrase: %d\n" numWords
+  let entropy = calculateEntropy (fromIntegral wordListSize) (fromIntegral numWords)
+  printf "Bits of entropy: %.2f\n\n" (entropy :: Double)
 
-    printf "%-55s |words: %d  chars: %d\n"
-      displayString nospaceLength (length displayString)
+  replicateM_ (read numLinesS) $ do
+    -- Generate the words
+    generatedWordList <- replicateM numWords $ getWord mapWordlist
+
+    -- Print it formatted with interspersed spaces
+    putStrLn . intercalate " " $ generatedWordList
 
 pickWords _                          =
   pickWords [defaultNumWords, defaultNumLines]

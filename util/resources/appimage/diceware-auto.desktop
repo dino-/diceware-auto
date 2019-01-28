@@ -1,0 +1,7 @@
+[Desktop Entry]
+Categories=Utility;ConsoleOnly;
+Type=Application
+Icon=diceware-auto
+Exec=diceware-auto
+Name=diceware-auto
+Terminal=true

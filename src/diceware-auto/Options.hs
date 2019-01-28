@@ -66,7 +66,7 @@ footer' = footerDoc . Just . string $ printf content (showVersion version)
   where content = tail . init $ [here|
 As of 2019-Jan it's recommended to use 96 bits of entropy for your most sensitive passphrases. For Diceware this translates into 8 words in length which is the default value at this time. Bits of entropy will be calculated and displayed during execution. For more information on password strength, see https://en.wikipedia.org/wiki/Password_strength
 
-This software is by-nature less secure than rolling five 6-sided dice and looking up the words in a paper word list. But it's quite a bit more convenient. It does make some small attempt to be safe by using the cryptonite library to generate random values for die rolls.
+This software is by-nature less secure than rolling five 6-sided dice and looking up the words in a paper word list. But it's quite a bit more convenient. It does make some small attempt to be safer by using the cryptonite library to generate random values for die rolls.
 
 For more information on the Diceware system of passphrase generation, please see The Diceware Passphrase Home Page http://world.std.com/~reinhold/diceware.html  Here you can also find links to word list files in languages other than English.
 

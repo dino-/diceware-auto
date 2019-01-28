@@ -1,5 +1,8 @@
-import Control.Monad (replicateM, replicateM_)
+import Control.Monad (replicateM, replicateM_, when )
 import Data.List (intercalate)
+import Data.Version ( showVersion )
+import Paths_diceware_auto ( version )
+import System.Exit ( exitSuccess )
 import Text.Printf ( printf )
 
 import Diceware.Math ( calculateEntropy )
@@ -8,10 +11,8 @@ import Diceware.Words
   ( Dicemap, WordsSource (Internal, File)
   , size, listToKeyInt, loadWordlist, lookupWord )
 import Diceware.WordlistEnglish ( contentsEnglishStr )
-import Options
-  ( Options (optDump, optLines, optWords, optWordsSource)
-  , parseOptions
-  )
+import Options ( Options (optDump, optLines, optWords
+  , optVersion, optWordsSource) , parseOptions )
 
 
 {-
@@ -59,6 +60,7 @@ formatWordsSource (File wordlistPath) = printf "Words chosen from file: %s" word
 main :: IO ()
 main = do
   opts <- parseOptions
-  if optDump opts
-    then putStrLn contentsEnglishStr
-    else pickWords opts
+  when (optDump opts) $ putStrLn contentsEnglishStr >> exitSuccess
+  when (optVersion opts) $
+    printf "diceware-auto %s\n" (showVersion version) >> exitSuccess
+  pickWords opts

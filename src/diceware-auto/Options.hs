@@ -19,6 +19,7 @@ data Options = Options
   { optDump :: Bool
   , optWordsSource :: WordsSource
   , optLines :: Int
+  , optVersion :: Bool
   , optWords :: Int
   }
 
@@ -43,6 +44,10 @@ parser = Options
       <> showDefault
       <> value 30
       <> metavar "INT"
+      )
+  <*> switch
+      (  long "version"
+      <> help "Display version"
       )
   <*> option auto
       (  long "words"

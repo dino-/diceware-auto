@@ -1,18 +1,11 @@
 import Control.Monad (replicateM, replicateM_)
 import Data.List (intercalate)
-import System.FilePath ( (</>), (<.>), FilePath )
 import Text.Printf ( printf )
 
 import Diceware.Math ( calculateEntropy )
 import Diceware.Random ( generateRandomDieRoll )
 import Diceware.Words ( Dicemap, size, listToKeyInt, loadWordlist, lookupWord )
-import Options
-
-
-dicewareWordlistPath :: FilePath
--- FIXME This isn't going to live here forever
-dicewareWordlistPath = "util" </> "resources" </> "diceware" <.> "wordlist" <.> "asc"
--- dicewareWordlistPath = "diceware.wordlist.asc"
+import Options ( Options (optLines, optWords, optWordsSource), parseOptions )
 
 
 {-
@@ -34,7 +27,7 @@ getWord dicemap = do
 -}
 pickWords :: Options -> IO ()
 pickWords opts = do
-  mapWordlist <- loadWordlist dicewareWordlistPath
+  mapWordlist <- loadWordlist . optWordsSource $ opts
 
   let wordListSize = size mapWordlist
   printf "Number of elements (words) in word list: %d\n" wordListSize

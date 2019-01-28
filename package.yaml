@@ -25,6 +25,7 @@ ghc-options:
 
 dependencies:
 - base >=3 && <5
+- heredoc
 
 library:
   source-dirs: src/lib
@@ -32,6 +33,7 @@ library:
   - bytestring
   - containers
   - cryptonite
+  - directory
   - filepath
   - text
 
@@ -42,8 +44,6 @@ executables:
     dependencies:
     - ansi-wl-pprint
     - diceware-auto
-    - filepath
-    - heredoc
     - optparse-applicative
 
 # tests:

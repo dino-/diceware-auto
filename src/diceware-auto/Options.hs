@@ -7,6 +7,7 @@ module Options
   where
 
 import Data.Version ( showVersion )
+import Diceware.Words ( WordsSource (Internal, File) )
 import Options.Applicative
 import Paths_diceware_auto ( version )
 import Text.Heredoc ( here )
@@ -15,21 +16,20 @@ import Text.Printf ( printf )
 
 
 data Options = Options
-  { optWords :: Int
+  { optWordsSource :: WordsSource
   , optLines :: Int
+  , optWords :: Int
   }
-  deriving Show
 
 
 parser :: Parser Options
 parser = Options
-  <$> option auto
-      (  long "words"
-      <> short 'w'
-      <> help "Number of words to generate per line"
-      <> showDefault
-      <> value 8
-      <> metavar "INT"
+  <$> option (File <$> str)
+      (  long "words-file"
+      <> short 'f'
+      <> help "Path to a file of diceware words"
+      <> metavar "PATH"
+      <> value Internal
       )
   <*> option auto
       (  long "lines"
@@ -37,6 +37,14 @@ parser = Options
       <> help "Number of lines of words to generate"
       <> showDefault
       <> value 30
+      <> metavar "INT"
+      )
+  <*> option auto
+      (  long "words"
+      <> short 'w'
+      <> help "Number of words to generate per line"
+      <> showDefault
+      <> value 8
       <> metavar "INT"
       )
 

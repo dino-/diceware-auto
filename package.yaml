@@ -40,8 +40,11 @@ executables:
     source-dirs: src/diceware-auto
     main: Main.hs
     dependencies:
+    - ansi-wl-pprint
     - diceware-auto
     - filepath
+    - heredoc
+    - optparse-applicative
 
 # tests:
 #   diceware-test-suite:

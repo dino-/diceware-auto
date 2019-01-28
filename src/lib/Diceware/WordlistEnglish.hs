@@ -2,11 +2,16 @@
 
 module Diceware.WordlistEnglish
   ( contentsEnglish
+  , contentsEnglishStr
   )
   where
 
 import qualified Data.Text as T
 import Text.Heredoc ( here )
+
+
+contentsEnglishStr :: String
+contentsEnglishStr = T.unpack contentsEnglish
 
 
 contentsEnglish :: T.Text

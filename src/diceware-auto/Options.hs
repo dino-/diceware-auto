@@ -16,7 +16,8 @@ import Text.Printf ( printf )
 
 
 data Options = Options
-  { optWordsSource :: WordsSource
+  { optDump :: Bool
+  , optWordsSource :: WordsSource
   , optLines :: Int
   , optWords :: Int
   }
@@ -24,7 +25,11 @@ data Options = Options
 
 parser :: Parser Options
 parser = Options
-  <$> option (File <$> str)
+  <$> switch
+      (  long "dump"
+      <> help "Dump the (English) default word list file to stdout and exit"
+      )
+  <*> option (File <$> str)
       (  long "words-file"
       <> short 'f'
       <> help "Path to a file of diceware words"

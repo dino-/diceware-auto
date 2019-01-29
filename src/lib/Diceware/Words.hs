@@ -58,10 +58,18 @@ parseWordlist =
     . T.lines
 
 
+{-
+  Safe tail of a Data.Text with default value for the case of a null Text
+-}
+
 tailDef :: Text -> Text -> Text
 tailDef def ""  = def
 tailDef _   txt = T.tail txt
 
+
+{-
+  Safe read function for Text that evaluates to Nothing upon failure
+-}
 
 readMay :: Integral a => Text -> Maybe a
 readMay txt = case decimal txt of
@@ -76,6 +84,10 @@ readMay txt = case decimal txt of
 lookupWord :: IntMap.Key -> Dicemap -> Maybe String
 lookupWord key dicemap = T.unpack <$> IntMap.lookup key dicemap
 
+
+{-
+  Turn a list like ([1,2,3,4,5] :: [Int]) into (12345 :: Int)
+-}
 
 listToKeyInt :: [Int] -> Int
 listToKeyInt = listToKeyInt' 0 . reverse

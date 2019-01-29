@@ -53,8 +53,12 @@ pickWords opts = do
 
 
 formatWordsSource :: WordsSource -> String
-formatWordsSource Internal = "Internal English word list used"
-formatWordsSource (File wordlistPath) = printf "Words chosen from file: %s" wordlistPath
+
+formatWordsSource  Internal           =
+  "Internal English word list used"
+
+formatWordsSource (File wordlistPath) =
+  printf "Words chosen from file: %s" wordlistPath
 
 
 main :: IO ()

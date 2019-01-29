@@ -1,7 +1,7 @@
 name: diceware-auto
 version: '1.0'
-# synopsis:
-# description:
+synopsis: Randomly generate Diceware passphrases
+description: Against everyone's better judgement, this is an automated Diceware passphrase generator. This software simulates rolling 5 six-sided dice and chooses the corresponding word in a Diceware word list.
 license: ISC
 author: Dino Morelli
 maintainer: dino@ui3.info

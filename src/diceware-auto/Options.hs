@@ -28,7 +28,7 @@ parser :: Parser Options
 parser = Options
   <$> switch
       (  long "dump"
-      <> help "Dump the (English) default word list file to stdout and exit"
+      <> help "Dump the (English) default word list file to stdout"
       )
   <*> option (File <$> str)
       (  long "words-file"
@@ -69,11 +69,13 @@ parseOptions = execParser $ info (parser <**> helper)
 footer' :: InfoMod a
 footer' = footerDoc . Just . string $ printf content (showVersion version)
   where content = tail . init $ [here|
-As of 2019-Jan it's recommended to use 96 bits of entropy for your most sensitive passphrases. For Diceware this translates into 8 words in length which is the default value at this time. Bits of entropy will be calculated and displayed during execution. For more information on password strength, see https://en.wikipedia.org/wiki/Password_strength
+Against everyone's better judgement, this is an automated Diceware passphrase generator. This software simulates rolling 5 six-sided dice and chooses the corresponding word in a Diceware word list. Words selected this way can comprise a passphrase that's not hard to memorize and yet very difficult to discover with brute-force.
 
-This software is by-nature less secure than rolling five 6-sided dice and looking up the words in a paper word list. But it's quite a bit more convenient. It does make some small attempt to be safer by using the cryptonite library to generate random values for die rolls.
+As of 2019-Jan it's recommended to use 96 bits of entropy for your most sensitive passphrases. For Diceware this translates into 8 words in length which is the default value for this program. Bits of entropy will be calculated and displayed during execution. For more information on password strength, see [this Wikipedia page](https://en.wikipedia.org/wiki/Password_strength)
 
-For more information on the Diceware system of passphrase generation, please see The Diceware Passphrase Home Page http://world.std.com/~reinhold/diceware.html  Here you can also find links to word list files in languages other than English.
+This software is obviously less secure than rolling five 6-sided dice and looking up the words in a paper word list. But it's quite a bit more convenient. It does make some small attempt to be safer by using the cryptonite library to generate random values for die rolls.
+
+For more information on the Diceware system of passphrase generation, please see the [Diceware Passphrase Home Page](http://world.std.com/~reinhold/diceware.html)  Here you can also find links to word list files in languages other than English. The standard English Diceware word list has been compiled into this software and can be printed to stdout if desired. Other word list files are supported as well via an option.
 
 Version %s  Dino Morelli <dino@ui3.info>
 |]

@@ -8,9 +8,8 @@ import Text.Printf ( printf )
 import Diceware.Math ( calculateEntropy )
 import Diceware.Random ( generateRandomDieRoll )
 import Diceware.Words
-  ( Dicemap, describeWordsSource
-  , listToKeyInt, loadWordlist, lookupWord, size )
-import Diceware.Wordlist.DicewareStock ( contentsStr )
+  ( Dicemap, describeWordsSource, dumpList
+  , listToKeyInt, loadWordlist, lookupWord, size, unpack )
 import Options ( Options (optDump, optLines, optWords
   , optVersion, optWordsSource) , parseOptions )
 
@@ -55,7 +54,14 @@ pickWords opts = do
 main :: IO ()
 main = do
   opts <- parseOptions
-  when (optDump opts) $ putStrLn contentsStr >> exitSuccess
-  when (optVersion opts) $
-    printf "diceware-auto %s\n" (showVersion version) >> exitSuccess
+
+  when (optDump opts) $ do
+    wordListContents <- dumpList . optWordsSource $ opts
+    putStrLn . unpack $ wordListContents
+    exitSuccess
+
+  when (optVersion opts) $ do
+    printf "diceware-auto %s\n" (showVersion version)
+    exitSuccess
+
   pickWords opts

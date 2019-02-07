@@ -2,14 +2,15 @@
 
 module Diceware.Words
   ( Dicemap
-  , WordsSource ( DicewareStock, File )
+  , WordsSource (..)
   , describeWordsSource
+  , dumpList
   , listToKeyInt
   , loadWordlist
   , lookupWord
 
   -- Re-exported
-  , size
+  , size, unpack
   )
   where
 
@@ -19,7 +20,7 @@ import Data.Char ( isDigit )
 import Data.IntMap.Lazy ( IntMap, size )
 import qualified Data.IntMap.Lazy as IntMap
 import Data.Maybe ( fromJust, isJust )
-import Data.Text ( Text )
+import Data.Text ( Text, unpack )
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Data.Text.Read ( decimal )
@@ -27,40 +28,57 @@ import System.Directory ( doesFileExist )
 import System.Exit ( die )
 import System.FilePath ( FilePath )
 
+import qualified Diceware.Wordlist.DicewareImproved as DicewareImproved
 import qualified Diceware.Wordlist.DicewareStock as DicewareStock
+import qualified Diceware.Wordlist.Eff as Eff
 
 
 type Dicemap = IntMap Text
 
 
 data WordsSource
-  = DicewareStock
+  = DicewareImproved
+  | DicewareStock
+  | Eff
   | File FilePath
 
 instance Show WordsSource where
-  show DicewareStock = "diceware"
-  show (File path) = path
+  show DicewareImproved   = "improved"
+  show DicewareStock      = "diceware"
+  show Eff                = "eff"
+  show (File path)        = path
 
 
 instance Read WordsSource where
-  readsPrec _ "diceware" = [(DicewareStock, "")]
-  readsPrec _ path = [(File path, "")]
+  readsPrec _ "improved"  = [(DicewareImproved, "")]
+  readsPrec _ "diceware"  = [(DicewareStock, "")]
+  readsPrec _ "eff"       = [(Eff, "")]
+  readsPrec _ path        = [(File path, "")]
 
 
 describeWordsSource :: WordsSource -> String
-describeWordsSource DicewareStock = "stock Diceware English word list"
-describeWordsSource (File path) = "file " ++ path
+describeWordsSource DicewareImproved  = "Improved Diceware word list, English"
+describeWordsSource DicewareStock     = "stock Diceware word list, English"
+describeWordsSource Eff               = "EFF's long word list"
+describeWordsSource (File path)       = "file " ++ path
 
 
 loadWordlist :: WordsSource -> IO Dicemap
+loadWordlist ws = parseWordlist <$> dumpList ws
 
-loadWordlist DicewareStock = return . parseWordlist $ DicewareStock.contents
+dumpList :: WordsSource -> IO Text
 
-loadWordlist (File dicewareWordlistPath) = do
+dumpList DicewareImproved = return DicewareImproved.contents
+
+dumpList DicewareStock = return DicewareStock.contents
+
+dumpList Eff = return Eff.contents
+
+dumpList (File dicewareWordlistPath) = do
   exists <- doesFileExist dicewareWordlistPath
   unless exists $ die $ "Can't continue because " ++
     dicewareWordlistPath ++ " does not exist"
-  parseWordlist <$> T.readFile dicewareWordlistPath
+  T.readFile dicewareWordlistPath
 
 
 parseWordlist :: Text -> Dicemap

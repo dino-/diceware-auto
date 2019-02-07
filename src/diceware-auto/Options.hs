@@ -7,7 +7,7 @@ module Options
   where
 
 import Data.Version ( showVersion )
-import Diceware.Words ( WordsSource (Internal, File) )
+import Diceware.Words ( WordsSource (DicewareStock) )
 import Options.Applicative
 import Paths_diceware_auto ( version )
 import Text.Heredoc ( here )
@@ -17,8 +17,8 @@ import Text.Printf ( printf )
 
 data Options = Options
   { optDump :: Bool
-  , optWordsSource :: WordsSource
   , optLines :: Int
+  , optWordsSource :: WordsSource
   , optVersion :: Bool
   , optWords :: Int
   }
@@ -30,13 +30,6 @@ parser = Options
       (  long "dump"
       <> help "Dump the (English) default word list file to stdout"
       )
-  <*> option (File <$> str)
-      (  long "words-file"
-      <> short 'f'
-      <> help "Path to a file of diceware words"
-      <> metavar "PATH"
-      <> value Internal
-      )
   <*> option auto
       (  long "lines"
       <> short 'l'
@@ -44,6 +37,14 @@ parser = Options
       <> showDefault
       <> value 30
       <> metavar "INT"
+      )
+  <*> option auto
+      (  long "list"
+      <> short 'L'
+      <> help "Word list to choose from"
+      <> showDefault
+      <> value DicewareStock
+      <> metavar "STR"
       )
   <*> switch
       (  long "version"

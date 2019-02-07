@@ -2,7 +2,8 @@
 
 module Diceware.Words
   ( Dicemap
-  , WordsSource ( Internal, File )
+  , WordsSource ( DicewareStock, File )
+  , describeWordsSource
   , listToKeyInt
   , loadWordlist
   , lookupWord
@@ -26,18 +27,34 @@ import System.Directory ( doesFileExist )
 import System.Exit ( die )
 import System.FilePath ( FilePath )
 
-import Diceware.WordlistEnglish ( contentsEnglish )
+import qualified Diceware.Wordlist.DicewareStock as DicewareStock
 
 
 type Dicemap = IntMap Text
 
 
-data WordsSource = Internal | File FilePath
+data WordsSource
+  = DicewareStock
+  | File FilePath
+
+instance Show WordsSource where
+  show DicewareStock = "diceware"
+  show (File path) = path
+
+
+instance Read WordsSource where
+  readsPrec _ "diceware" = [(DicewareStock, "")]
+  readsPrec _ path = [(File path, "")]
+
+
+describeWordsSource :: WordsSource -> String
+describeWordsSource DicewareStock = "stock Diceware English word list"
+describeWordsSource (File path) = "file " ++ path
 
 
 loadWordlist :: WordsSource -> IO Dicemap
 
-loadWordlist Internal = return . parseWordlist $ contentsEnglish
+loadWordlist DicewareStock = return . parseWordlist $ DicewareStock.contents
 
 loadWordlist (File dicewareWordlistPath) = do
   exists <- doesFileExist dicewareWordlistPath

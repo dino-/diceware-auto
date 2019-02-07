@@ -8,9 +8,9 @@ import Text.Printf ( printf )
 import Diceware.Math ( calculateEntropy )
 import Diceware.Random ( generateRandomDieRoll )
 import Diceware.Words
-  ( Dicemap, WordsSource (Internal, File)
-  , size, listToKeyInt, loadWordlist, lookupWord )
-import Diceware.WordlistEnglish ( contentsEnglishStr )
+  ( Dicemap, describeWordsSource
+  , listToKeyInt, loadWordlist, lookupWord, size )
+import Diceware.Wordlist.DicewareStock ( contentsStr )
 import Options ( Options (optDump, optLines, optWords
   , optVersion, optWordsSource) , parseOptions )
 
@@ -36,7 +36,7 @@ pickWords :: Options -> IO ()
 pickWords opts = do
   mapWordlist <- loadWordlist . optWordsSource $ opts
 
-  putStrLn . formatWordsSource . optWordsSource $ opts
+  putStrLn . ("Words chosen from " ++) . describeWordsSource . optWordsSource $ opts
   let wordListSize = size mapWordlist
   printf "Number of elements (words) in word list: %d\n" wordListSize
   let words' = optWords opts
@@ -52,19 +52,10 @@ pickWords opts = do
     putStrLn . intercalate " " $ generatedWordList
 
 
-formatWordsSource :: WordsSource -> String
-
-formatWordsSource  Internal           =
-  "Internal English word list used"
-
-formatWordsSource (File wordlistPath) =
-  printf "Words chosen from file: %s" wordlistPath
-
-
 main :: IO ()
 main = do
   opts <- parseOptions
-  when (optDump opts) $ putStrLn contentsEnglishStr >> exitSuccess
+  when (optDump opts) $ putStrLn contentsStr >> exitSuccess
   when (optVersion opts) $
     printf "diceware-auto %s\n" (showVersion version) >> exitSuccess
   pickWords opts

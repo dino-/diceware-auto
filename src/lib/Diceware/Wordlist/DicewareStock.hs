@@ -1,8 +1,8 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Diceware.WordlistEnglish
-  ( contentsEnglish
-  , contentsEnglishStr
+module Diceware.Wordlist.DicewareStock
+  ( contents
+  , contentsStr
   )
   where
 
@@ -10,12 +10,12 @@ import qualified Data.Text as T
 import Text.Heredoc ( here )
 
 
-contentsEnglishStr :: String
-contentsEnglishStr = T.unpack contentsEnglish
+contentsStr :: String
+contentsStr = T.unpack contents
 
 
-contentsEnglish :: T.Text
-contentsEnglish = T.pack . tail . init $ [here|
+contents :: T.Text
+contents = T.pack . tail . init $ [here|
 -----BEGIN PGP SIGNED MESSAGE-----
 
 11111	a

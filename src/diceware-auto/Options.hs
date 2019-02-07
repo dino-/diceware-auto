@@ -19,6 +19,7 @@ data Options = Options
   { optDump :: Bool
   , optLines :: Int
   , optWordsSource :: WordsSource
+  , optCount :: Bool
   , optVersion :: Bool
   , optWords :: Int
   }
@@ -45,6 +46,11 @@ parser = Options
       <> showDefault
       <> value DicewareImproved
       <> metavar "STR"
+      )
+  <*> flag True False
+      (  long "no-count"
+      <> short 'C'
+      <> help "Don't display character count for each line"
       )
   <*> switch
       (  long "version"

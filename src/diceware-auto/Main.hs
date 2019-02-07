@@ -10,7 +10,7 @@ import Diceware.Random ( generateRandomDieRoll )
 import Diceware.Words
   ( Dicemap, describeWordsSource, dumpList
   , listToKeyInt, loadWordlist, lookupWord, size, unpack )
-import Options ( Options (optDump, optLines, optWords
+import Options ( Options (optCount, optDump, optLines, optWords
   , optVersion, optWordsSource) , parseOptions )
 
 
@@ -48,7 +48,11 @@ pickWords opts = do
     generatedWordList <- replicateM words' $ getWord mapWordlist
 
     -- Print it formatted with interspersed spaces
-    putStrLn . intercalate " " $ generatedWordList
+    let wordsSeparated = intercalate " " generatedWordList
+    let lineCount = if optCount opts
+          then printf "%d | " $ length wordsSeparated
+          else ""
+    printf "%s%s\n" lineCount wordsSeparated
 
 
 main :: IO ()

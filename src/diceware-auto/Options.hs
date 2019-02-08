@@ -36,7 +36,7 @@ parser = Options
       <> short 'l'
       <> help "Number of lines of words to generate"
       <> showDefault
-      <> value 30
+      <> value 1
       <> metavar "INT"
       )
   <*> option auto
